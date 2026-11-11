@@ -28,4 +28,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: The build of qa and main carries no test card (norm 5.5.2)
+        run: "! grep -rl 'tok_visa' dist/payment"
+      - run: npx ng build --configuration develop
       - run: npm test
