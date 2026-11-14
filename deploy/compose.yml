@@ -5,9 +5,6 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile
-      args:
-        # develop only: env/dev.env.example of property-infra-postgres sets it (norm 5.5.2).
-        BUILD_CONFIGURATION: ${PAYMENT_PORTAL_BUILD:-production}
     expose: ["80"]
     networks: [platform]
 

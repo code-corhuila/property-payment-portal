@@ -30,12 +30,11 @@ npm test        # unit tests, one run (Vitest)
 npm start       # http://localhost:4203/remoteEntry.json
 ```
 
-**Builds.** `npm run build` is the build of qa and main: `src/app/payment/gateway.ts`, with
-no test card; the library of the gateway's test account is pending, so the screen says that
-payment by card is not available yet. `--configuration develop` (the image of develop, through
-`PAYMENT_PORTAL_BUILD=develop` of `property-infra-postgres`) and `npm start` replace it with
-`gateway.develop.ts`, the public test cards of the fake Stripe. The CI checks that the
-production build carries no test token.
+**The gateway in this release.** `src/app/payment/gateway.ts` has no test card: the library of
+the gateway's test account is pending, so the screen says that payment by card is not available
+yet. The public test cards of the fake Stripe (`gateway.develop.ts`, built with
+`--configuration develop` and by `npm start`) live only in `develop` (norm 5.5.2). The CI checks
+that the build carries no test token.
 
 `deploy/` builds the image (`npm ci`, then nginx) as the service `payment-portal` on
 `platform`; `property-infra-postgres` publishes it on 4203.
