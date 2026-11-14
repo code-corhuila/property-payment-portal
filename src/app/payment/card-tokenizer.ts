@@ -16,7 +16,7 @@ export interface CardTokenizer {
   tokenize(card: Card): Promise<string>;
 }
 
-/** The gateway of the build: gateway.ts in qa and main, gateway.develop.ts only in develop. */
+/** The gateway of the build: gateway.ts (in develop, gateway.develop.ts adds the test cards). */
 export interface Gateway {
   tokenizer: CardTokenizer;
   testCards: { number: string; label: string }[];

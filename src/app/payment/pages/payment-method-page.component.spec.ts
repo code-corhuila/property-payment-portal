@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { CARD_TOKENIZER, GatewayUnavailable } from '../card-tokenizer';
-import { GATEWAY as DEVELOP } from '../gateway.develop';
 import { PAYMENT_ROUTES } from '../payment.routes';
 
 @Component({ template: 'resumen' })
@@ -29,7 +28,9 @@ describe('PaymentMethodPageComponent', () => {
         ]),
         { provide: CARD_TOKENIZER, useValue: { tokenize: (c: { number: string }) => {
           cards.push(c.number);
-          return c.number === 'unavailable' ? Promise.reject(new GatewayUnavailable()) : DEVELOP.tokenizer.tokenize(c as never);
+          // A stand-in for the gateway's library: 4242... is approved, anything else is refused.
+          if (c.number === 'unavailable') return Promise.reject(new GatewayUnavailable());
+          return c.number.replace(/\s/g, '') === '4242424242424242' ? Promise.resolve('tok_visa') : Promise.reject(new Error('refused'));
         } } },
       ],
     });
