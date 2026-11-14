@@ -1,0 +1,62 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "payment": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {},
+          "configurations": {
+            "production": { "target": "payment:esbuild:production" },
+            "develop": { "target": "payment:esbuild:develop" },
+            "development": { "target": "payment:esbuild:development", "dev": true }
+          },
+          "defaultConfiguration": "production"
+        },
+        "esbuild": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/payment",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": ["es-module-shims"],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "styles": []
+          },
+          "configurations": {
+            "production": { "outputHashing": "all" },
+            "develop": { "outputHashing": "all", "fileReplacements": [
+              { "replace": "src/app/payment/gateway.ts", "with": "src/app/payment/gateway.develop.ts" }] },
+            "development": { "optimization": false, "extractLicenses": false, "sourceMap": true, "fileReplacements": [
+              { "replace": "src/app/payment/gateway.ts", "with": "src/app/payment/gateway.develop.ts" }] }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": { "target": "payment:serve-original:development", "rebuildDelay": 0, "dev": true, "port": 4203 }
+        },
+        "serve-original": {
+          "builder": "@angular/build:dev-server",
+          "configurations": { "development": { "buildTarget": "payment:esbuild:development" } },
+          "defaultConfiguration": "development",
+          "options": { "port": 4203 }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": { "tsConfig": "tsconfig.spec.json", "buildTarget": "payment:esbuild:development" }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}
