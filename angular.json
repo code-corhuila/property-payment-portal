@@ -14,7 +14,6 @@
           "options": {},
           "configurations": {
             "production": { "target": "payment:esbuild:production" },
-            "develop": { "target": "payment:esbuild:develop" },
             "development": { "target": "payment:esbuild:development", "dev": true }
           },
           "defaultConfiguration": "production"
@@ -32,10 +31,7 @@
           },
           "configurations": {
             "production": { "outputHashing": "all" },
-            "develop": { "outputHashing": "all", "fileReplacements": [
-              { "replace": "src/app/payment/gateway.ts", "with": "src/app/payment/gateway.develop.ts" }] },
-            "development": { "optimization": false, "extractLicenses": false, "sourceMap": true, "fileReplacements": [
-              { "replace": "src/app/payment/gateway.ts", "with": "src/app/payment/gateway.develop.ts" }] }
+            "development": { "optimization": false, "extractLicenses": false, "sourceMap": true }
           },
           "defaultConfiguration": "production"
         },
